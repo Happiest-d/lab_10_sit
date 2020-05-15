@@ -30,28 +30,7 @@ module.exports = {
       dataSources.userAPI.findOrCreateUser(),
   },
   Mutation: {
-    bookTrips: async (_, { launchIds, cardToken }, { dataSources }) => {
-      let paymentStatus;
-
-      if (cardToken) {
-        const stripe = require('stripe')('sk_test_0CbhH3PopwYWxgduO0MzIe4U00KX9hVSEO');
-
-        try {
-          const intent = await stripe.paymentIntents.create({
-            amount: 1000,
-            currency: 'usd',
-            payment_method: cardToken,
-            confirm: true,
-            error_on_requires_action: true
-          });
-          
-          paymentStatus = intent.status;
-
-        } catch (e) {
-          throw new Error(e)
-        }
-      }
-
+    bookTrips: async (_, { launchIds }, { dataSources }) => {
       const results = await dataSources.userAPI.bookTrips({ launchIds });
       const launches = await dataSources.launchAPI.getLaunchesByIds({
         launchIds,
@@ -66,7 +45,6 @@ module.exports = {
                 id => !results.includes(id),
               )}`,
         launches,
-        paymentStatus,
       };
     },
     cancelTrip: async (_, { launchId }, { dataSources }) => {
