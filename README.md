@@ -1,5 +1,5 @@
 This is my version of the fullstack app for the [Apollo tutorial](http://apollographql.com/docs/tutorial/introduction.html). 🚀
-Stripe has been added as a payment gateway.
+Stripe has been added for payments.
 
 ## Installation
 
